@@ -1,12 +1,15 @@
 package com.exception;
 
 public class ContatoNaoExisteException extends Exception{
+    private final String nomeBuscado;
+
     public ContatoNaoExisteException(String nome) {
+        this.nomeBuscado = nome;
     }
 
     @Override
     public String getMessage() {
-        return "O contato solicitado não existe!";
+        return "O contato " + nomeBuscado + " não foi encontrado!";
     }
 }
 

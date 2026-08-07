@@ -52,7 +52,7 @@ public class Main {
                     c.setEmail(email);
 
                     agenda.adicionarContato(c);
-                    System.out.println("contato adicionado com sucesso!");
+                    System.out.println("contato " + c.getNome() + " adicionado com sucesso!");
 
                 } else if (opcaoDesejada == 2) {
                     System.out.println("digite o nome do contato para consulta:");
