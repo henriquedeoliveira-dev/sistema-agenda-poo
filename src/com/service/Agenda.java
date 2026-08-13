@@ -5,44 +5,48 @@ import com.exception.ContatoNaoExisteException;
 import com.exception.ListaVaziaException;
 import com.model.Contato;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Agenda {
-    private Contato[] contatos;
+    private final List<Contato> contatos;
+    private static final int LIMITE_MAXIMO = 30;
 
     public Agenda() {
-        contatos = new Contato[5];
+        contatos = new ArrayList<>();
+    }
+
+
+    public void verificarLimite() throws AgendaCheiaException {
+        if (contatos.size() >= LIMITE_MAXIMO) {
+            throw new AgendaCheiaException(LIMITE_MAXIMO);
+        }
     }
 
     public void adicionarContato(Contato c) throws AgendaCheiaException {
-        for (int i = 0; i < contatos.length; i++) {
-            if (contatos[i] == null) {
-                contatos[i] = c;
-                return;
-            }
-        }
-        throw new AgendaCheiaException();
+        verificarLimite();
+        contatos.add(c);
     }
 
     public Contato consultarContatoPorNome(String nome) throws ContatoNaoExisteException {
         for (Contato c : contatos) {
-            if (c != null && c.getNome().toLowerCase().contains(nome.toLowerCase())) {
+            if (c.getNome().toLowerCase().contains(nome.toLowerCase())) {
                 return c;
             }
         }
         throw new ContatoNaoExisteException(nome);
     }
 
-    public Contato[] listarContatos() throws ListaVaziaException {
-        boolean possuiContato = false;
-        for (Contato c : contatos) {
-            if (c != null) {
-                possuiContato = true;
-                break;
-            }
-        }
-        if (!possuiContato) {
+    public List<Contato> listarContatos() throws ListaVaziaException {
+        if (contatos.isEmpty()) {
             throw new ListaVaziaException();
         }
         return contatos;
+    }
+
+    public void deletarContato(String nome) throws ContatoNaoExisteException {
+        Contato contatoEncontrado = consultarContatoPorNome(nome);
+        contatos.remove(contatoEncontrado);
     }
 }
 

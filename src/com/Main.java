@@ -6,6 +6,7 @@ import com.exception.ListaVaziaException;
 import com.model.Contato;
 import com.service.Agenda;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -21,22 +22,23 @@ public class Main {
             System.out.println("tecle 0: listar todos os contatos");
             System.out.println("tecle 1: adicionar contato");
             System.out.println("tecle 2: consultar contato por nome");
-            System.out.println("tecle 3: sair");
+            System.out.println("tecle 3: excluir contato por nome");
+            System.out.println("tecle 4: sair");
 
             try {
                 int opcaoDesejada = scanner.nextInt();
                 scanner.nextLine();
 
                 if (opcaoDesejada == 0) {
-                    Contato[] todosContatos = agenda.listarContatos();
+                    List<Contato> todosContatos = agenda.listarContatos();
                     System.out.println("*****Lista de contatos*****");
                     for (Contato c : todosContatos) {
-                        if (c != null) {
-                            System.out.println(c);
-                        }
+                        System.out.println(c);
                     }
 
                 } else if (opcaoDesejada == 1) {
+                    agenda.verificarLimite();
+
                     System.out.println("digite seu nome: ");
                     String nome = scanner.nextLine();
 
@@ -57,10 +59,16 @@ public class Main {
                 } else if (opcaoDesejada == 2) {
                     System.out.println("digite o nome do contato para consulta:");
                     String nomeBusca = scanner.nextLine();
-
                     Contato c = agenda.consultarContatoPorNome(nomeBusca);
                     System.out.println("nome encontrado: " + c);
+
                 } else if (opcaoDesejada == 3) {
+                    System.out.println("digite o nome do contato para deletá-lo:");
+                    String nomeBusca = scanner.nextLine();
+                    agenda.deletarContato(nomeBusca);
+                    System.out.println("contato " + nomeBusca + " deletado com sucesso!");
+
+                } else if (opcaoDesejada == 4) {
                     continuar = false;
                     System.out.println("aplicação encerrada!");
                 } else {
